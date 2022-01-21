@@ -103,7 +103,9 @@ def net_calcul(matrix):
     sum_col= np.sum(matrix, axis=0)
     sum_row= np.sum(matrix, axis= 1)
     return sum_row - sum_col
-def net_sup_rank(matrix):
+
+
+def net_sup(matrix):
     net_sup_rank = np.argsort(matrix)
     array_result= []
     for value in net_sup_rank:
@@ -112,13 +114,29 @@ def net_sup_rank(matrix):
     n= len(array_result)
     return array_result[::-1][:n]
 
-def net_inf_rank(matrix):
+def net_inf(matrix):
     net_sup_rank = np.argsort(matrix)
     array_result= []
     for value in net_sup_rank:
         val= "A" + str(value + 1)
         array_result.append(val)
     return array_result
+
+
+def electre(matrix, thresehold, weigth):
+
+    normalizeMatrix = normalized_matrix(decisionMatrix)
+    weigthedNormalizedMatrix = weighted_normalize_matrix(normalizeMatrix, weigth)
+    concordanceMatrix = concordance_matrix(weigthedNormalizedMatrix, weigth)
+    discordanceMatrix = discordance_matrix(weigthedNormalizedMatrix)
+    c_bar = calcul_thresehold(concordanceMatrix)
+    d_bar = calcul_thresehold(discordanceMatrix)
+    net_su = net_calcul(concordanceMatrix)
+    net_in = net_calcul(discordanceMatrix)
+    net_sup_rank = net_sup(net_su)
+    net_inf_rank = net_inf(net_in)
+
+    return net_sup_rank, net_inf_rank
 
 
 print("Select Data Location")
@@ -164,10 +182,11 @@ net_inf= net_calcul(discordanceMatrix)
 print(net_inf)
 
 print("\n /////// rank net superior /////// \n ")
-net_sup_rank= net_sup_rank(net_sup)
+net_sup_rank= net_sup(net_sup)
 print(net_sup_rank)
 
 
 print("\n /////// rank net inferior /////// \n ")
-net_inf_rank= net_inf_rank(net_inf)
+net_inf_rank= net_inf(net_inf)
 print(net_inf_rank)
+
