@@ -1,5 +1,6 @@
 import numpy as np
-
+import dataloader as dt
+import gui
 
 
 def normalized_matrix(decisionMatrix):
@@ -124,7 +125,7 @@ def net_inf(matrix):
 
 def electre(matrix, thresehold, weigth):
 
-    normalizeMatrix = normalized_matrix(decisionMatrix)
+    normalizeMatrix = normalized_matrix(matrix)
     weigthedNormalizedMatrix = weighted_normalize_matrix(normalizeMatrix, weigth)
     concordanceMatrix = concordance_matrix(weigthedNormalizedMatrix, weigth)
     discordanceMatrix = discordance_matrix(weigthedNormalizedMatrix)
@@ -137,4 +138,54 @@ def electre(matrix, thresehold, weigth):
 
     return net_sup_rank, net_inf_rank
 
+
+print("Select Data Location")
+decisionMatrix = dt.loadCsv(gui.openfile("DataFile"))
+decisionMatrix= np.matrix(decisionMatrix)
+print(decisionMatrix)
+print("Select Weight Location")
+weigth = dt.loadCsv(gui.openfile("WeightFile"))
+weigth= np.array(weigth)
+print(weigth)
+#decisionMatrix = [[1350, 1850, 44323], [1680, 1650, 44324], [1560, 1950, 44322]]
+#weigth = [0.3357, 0.2076, 0.4567]
+normalizeMatrix = normalized_matrix(decisionMatrix)
+weigthedNormalizedMatrix = weighted_normalize_matrix(normalizeMatrix, weigth)
+print("/////// Normalized Matrix ////////// \n ")
+print(normalizeMatrix)
+print("\n /////// weigthed Normalized Matrix /////// \n ")
+print(weigthedNormalizedMatrix)
+print("\n /////// Concordance Matrix /////// \n ")
+concordanceMatrix = concordance_matrix(weigthedNormalizedMatrix, weigth)
+print(concordanceMatrix)
+print("\n /////// Discordance Matrix /////// \n ")
+discordanceMatrix = discordance_matrix(weigthedNormalizedMatrix)
+print(discordanceMatrix)
+print("\n /////// concordance thresehold /////// \n ")
+c_bar= calcul_thresehold(concordanceMatrix)
+print(c_bar)
+print("\n /////// discordance thresehold /////// \n ")
+d_bar= calcul_thresehold(discordanceMatrix)
+print(d_bar)
+print("\n /////// concordance index matrix /////// \n ")
+concordanceIndexMatrix = concordance_index(concordanceMatrix, c_bar)
+print(concordanceIndexMatrix)
+print("\n /////// discordance index matrix /////// \n ")
+discordanceIndexMatrix = discordance_index(discordanceMatrix, d_bar)
+print(discordanceIndexMatrix)
+print("\n /////// net superior /////// \n ")
+net_sup= net_calcul(concordanceMatrix)
+print(net_sup)
+print("\n /////// net inferior /////// \n ")
+net_inf= net_calcul(discordanceMatrix)
+print(net_inf)
+
+print("\n /////// rank net superior /////// \n ")
+net_sup_rank= net_sup(net_sup)
+print(net_sup_rank)
+
+
+print("\n /////// rank net inferior /////// \n ")
+net_inf_rank= net_inf(net_inf)
+print(net_inf_rank)
 

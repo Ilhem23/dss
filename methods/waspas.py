@@ -1,5 +1,7 @@
 import numpy as np
+import dataloader as dt
 import pandas as pd
+import gui
 
 def wsm_wpm_waspass(matrix, weight, criteria_type, lamda):
     n= matrix.shape[0]
@@ -29,3 +31,30 @@ def wsm_wpm_waspass(matrix, weight, criteria_type, lamda):
     df3 = pd.DataFrame(data=waspas, columns=["WASPAS"])
     df3["rank"] = df3.size - df3["WASPAS"].rank(method='min') + 1
     return df, df2, df3
+
+print("Select Data Location \n")
+decisionMatrix = dt.loadCsv(gui.openfile("DataFile"))
+decisionMatrix= np.array(decisionMatrix)
+print("##################### decision matrix ################### \n")
+print(decisionMatrix)
+print("Select Weight Location")
+weights = np.array(dt.loadCsv(gui.openfile("WeightFile")))
+weight= np.eye(decisionMatrix.shape[0], decisionMatrix.shape[1])
+weights=np.array(weights * weight)
+
+print("##################### Weight ################### \n")
+print(weights)
+
+
+#criterion_type = ['min', 'max', 'max', 'max','min', 'max', 'max', 'max', 'min', 'max', 'max']
+criterion_type = ['max', 'max', 'max', 'max', 'max', 'max', 'max', 'max', 'max']
+wsm, wpm, waspass= wsm_wpm_waspass(decisionMatrix, weights, criterion_type, 0.5)
+print("##################### WSM Rank ################### \n")
+print(wsm)
+print("##################### WPM Rank ################### \n")
+print(wpm)
+print("##################### WASPAS Rank ################### \n")
+print(waspass)
+#for i in range(0, wsmRank.shape[0]):
+#  print('a'+str(i+1), wsmRank[i])
+
