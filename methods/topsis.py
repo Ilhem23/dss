@@ -1,7 +1,5 @@
 import numpy as np
-import dataloader as dt
 import pandas as pd
-import gui
 
 def topsis(matrix, weight, criteria_type, lamda):
     n= matrix.shape[0]
@@ -30,23 +28,5 @@ def topsis(matrix, weight, criteria_type, lamda):
     df["rank"] = df.size - df["pi"].rank(method='min') + 1
     return df
 
-print("Select Data Location \n")
-decisionMatrix = dt.loadCsv(gui.openfile("DataFile"))
-decisionMatrix= np.array(decisionMatrix)
-print("##################### decision matrix ################### \n")
-print(decisionMatrix)
-print("Select Weight Location")
-weigth = dt.loadCsv(gui.openfile("WeightFile"))
-weigth= np.array(weigth)
-
-print("##################### Weight ################### \n")
-print(weigth)
-
-
-#criterion_type = ['min', 'max', 'max', 'max','min', 'max', 'max', 'max', 'min', 'max', 'max']
-criterion_type = ['min', 'max', 'max', 'max']
-topsis= topsis(decisionMatrix, weigth, criterion_type, 0.5)
-print("##################### Topsis ################### \n")
-print(topsis)
 
 
