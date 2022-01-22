@@ -127,8 +127,6 @@ def electre(matrix, thresehold, weigth):
     weigthedNormalizedMatrix = weighted_normalize_matrix(normalizeMatrix, weigth)
     concordanceMatrix = concordance_matrix(weigthedNormalizedMatrix, weigth)
     discordanceMatrix = discordance_matrix(weigthedNormalizedMatrix)
-    c_bar = calcul_thresehold(concordanceMatrix)
-    d_bar = calcul_thresehold(discordanceMatrix)
     net_su = net_calcul(concordanceMatrix)
     net_in = net_calcul(discordanceMatrix)
     net_sup_rank = net_sup(net_su)

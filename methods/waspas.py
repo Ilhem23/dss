@@ -19,14 +19,13 @@ def wsm_wpm_waspass(matrix, weight, criteria_type, lamda):
                 matrixResult[:, i] = np.divide(np.min(matrix[:, i]), matrix[:, i])
     matrixResult1= matrixResult * weight
     matrixResult2 = np.abs(matrixResult) ** weight
-    print(matrixResult2)
     matrixWSM= np.sum(matrixResult1, axis=1)
     matrixWpm= np.prod(matrixResult2, axis=1)
     waspas = (lamda * matrixWSM )+ ((1 - lamda) * matrixWpm)
     df = pd.DataFrame(data=matrixWSM, columns=["WSM"])
-    df["rank"] = df.size - df["WSM"].rank(method='min') + 1
+    df["rank_wsm"] = df.size - df["WSM"].rank(method='min') + 1
     df2 = pd.DataFrame(data=matrixWpm, columns=["WPM"])
-    df2["rank"] = df2.size - df2["WPM"].rank(method='min') + 1
+    df2["rank_wpm"] = df2.size - df2["WPM"].rank(method='min') + 1
     df3 = pd.DataFrame(data=waspas, columns=["WASPAS"])
-    df3["rank"] = df3.size - df3["WASPAS"].rank(method='min') + 1
+    df3["rank_waspas"] = df3.size - df3["WASPAS"].rank(method='min') + 1
     return df, df2, df3
