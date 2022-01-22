@@ -18,10 +18,10 @@ def wsm_wpm_waspass(matrix, weight, criteria_type, lamda):
             else:
                 matrixResult[:, i] = np.divide(np.min(matrix[:, i]), matrix[:, i])
     matrixResult1= matrixResult * weight
-    matrixResult2 = matrixResult ** weight
+    matrixResult2 = np.abs(matrixResult) ** weight
+    print(matrixResult2)
     matrixWSM= np.sum(matrixResult1, axis=1)
     matrixWpm= np.prod(matrixResult2, axis=1)
-    print(matrixWpm)
     waspas = (lamda * matrixWSM )+ ((1 - lamda) * matrixWpm)
     df = pd.DataFrame(data=matrixWSM, columns=["WSM"])
     df["rank"] = df.size - df["WSM"].rank(method='min') + 1
