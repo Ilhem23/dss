@@ -1,5 +1,5 @@
 import numpy as np
-
+import pandas as pd
 
 def normalized_matrix(decisionMatrix):
     decisionMatrix = np.matrix(decisionMatrix)
@@ -105,20 +105,12 @@ def net_calcul(matrix):
 
 def net_sup(matrix):
     net_sup_rank = np.argsort(matrix)
-    array_result= []
-    for value in net_sup_rank:
-        val= "A" + str(value + 1)
-        array_result.append(val)
-    n= len(array_result)
-    return array_result[::-1][:n]
+    n= len(net_sup_rank)
+    return net_sup_rank[::-1][:n]
 
 def net_inf(matrix):
     net_sup_rank = np.argsort(matrix)
-    array_result= []
-    for value in net_sup_rank:
-        val= "A" + str(value + 1)
-        array_result.append(val)
-    return array_result
+    return net_sup_rank
 
 
 def electre(matrix, thresehold, weigth):
@@ -131,7 +123,7 @@ def electre(matrix, thresehold, weigth):
     net_in = net_calcul(discordanceMatrix)
     net_sup_rank = net_sup(net_su)
     net_inf_rank = net_inf(net_in)
-
-    return net_sup_rank, net_inf_rank
-
+    df1 = pd.DataFrame(data=net_sup_rank, columns=["rank_sup"])
+    df2 = pd.DataFrame(data=net_inf_rank, columns=["rank_inf"])
+    return df1, df2
 
